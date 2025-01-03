@@ -1,5 +1,6 @@
 package com.openclassrooms.p9.clientUI;
 
+import com.openclassrooms.p9.clientUI.beans.PatientBean;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.openfeign.EnableFeignClients;
