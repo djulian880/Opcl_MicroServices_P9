@@ -5,7 +5,7 @@
     <title>Fiche Patient</title>
 </head>
 <body>
-<form action="#" th:action="@{/Patient/update/{id}(id=${patient.id})}" th:object="${patient}" method="post" style="width: 100%">
+<form action="#" th:action="@{/details-patient/update/{id}(id=${patient.id})}" th:object="${patient}" method="post" style="width: 100%">
     <div>
         <label for="nom">Nom</label>
         <div>
@@ -52,7 +52,7 @@
     <div>
         <div>
             <input type="hidden" th:field="*{id}">
-            <a href="/Accueil">Cancel</a>
+            <a href="/">Annuler</a>
             <input type="submit" value="Mise à jour données">
         </div>
     </div>

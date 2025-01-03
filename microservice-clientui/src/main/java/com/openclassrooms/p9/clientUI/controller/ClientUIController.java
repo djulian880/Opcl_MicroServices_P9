@@ -4,6 +4,7 @@ import com.openclassrooms.p9.clientUI.beans.PatientBean;
 import com.openclassrooms.p9.clientUI.proxies.MicroServicePatientProxy;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -48,5 +49,44 @@ public class ClientUIController {
             return "FichePatient";
         }
     }
+
+    @PostMapping("/details-patient/update/{id}")
+    public String updatePatient(@PathVariable("id") Integer id, PatientBean patient, Model model) {
+        Optional<PatientBean> patientUpdated =Optional.of(patientsProxy.mettreAJourUnPatient(id,patient));;
+        if (patientUpdated.isPresent()) {
+
+            return "redirect:/";
+        } else {
+            //log.error("Patient with id {} not found", id);
+            return "redirect:/";
+        }
+    }
+
+    @GetMapping("/details-patient/add")
+    public String showAddPatientForm( PatientBean patient, Model model) {
+        model.addAttribute("patient", new PatientBean());
+            return "AjoutPatient";
+    }
+
+    @PostMapping("/details-patient/add")
+    public String addPatient( PatientBean patient, Model model) {
+        patientsProxy.AjouterUnPatient(patient);
+        /*Optional<PatientBean> patientAdded =Optional.of(patientsProxy.AjouterUnPatient(patient));;
+        if (patientAdded.isPresent()) {
+
+            return "redirect:/";
+        } else {
+            //log.error("Patient with id {} not found", id);
+            return "redirect:/";
+        }*/
+        return "redirect:/";
+    }
+
+    @GetMapping("/details-patient/remove/{id}")
+    public String showAddPatientForm(@PathVariable("id") Integer id) {
+        patientsProxy.supprimerUnPatient(id);
+        return "redirect:/";
+    }
+
 
 }
