@@ -25,11 +25,6 @@ public class ClientUIController {
     public String accueil(Model model){
         List<PatientBean> patients =  patientsProxy.listeDesPatients();
         model.addAttribute("patients", patients);
-
-        PatientBean patient = new PatientBean();
-        patient.setNom("Dupont");
-        System.out.println(patient.getNom()); // Doit afficher "Dupont"
-
         return "Accueil";
     }
 
