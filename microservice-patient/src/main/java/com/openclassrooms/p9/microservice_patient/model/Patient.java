@@ -10,15 +10,12 @@ import org.hibernate.annotations.DynamicUpdate;
 
 
 @Data
-//@Getter
-//@Setter
 @DynamicUpdate
 @Entity
 public class Patient {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonIgnore
     private Integer id;
 
     @Column
