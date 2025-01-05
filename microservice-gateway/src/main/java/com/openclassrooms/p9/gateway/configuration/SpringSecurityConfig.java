@@ -3,6 +3,7 @@ package com.openclassrooms.p9.gateway.configuration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.core.userdetails.MapReactiveUserDetailsService;
@@ -14,6 +15,7 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationEn
 import org.springframework.security.web.server.SecurityWebFilterChain;
 import org.springframework.security.web.server.ServerAuthenticationEntryPoint;
 import org.springframework.security.web.server.authentication.HttpStatusServerEntryPoint;
+import org.springframework.security.web.server.context.NoOpServerSecurityContextRepository;
 
 @Configuration
 @EnableWebFluxSecurity
@@ -47,19 +49,19 @@ public class SpringSecurityConfig {
     public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
         http
                 .authorizeExchange(exchange -> exchange
-                        .pathMatchers("/public/**").permitAll() // Routes publiques
-                        .pathMatchers("/Patients/**").permitAll() // Routes publiques
-                        .pathMatchers("/admin/**").hasRole("ADMIN") // Routes accessibles uniquement aux admins
+                       // .pathMatchers("/public/**").permitAll() // Routes publiques
+                       // .pathMatchers("/Patients/**").permitAll() // Routes publiques
+                        .pathMatchers("/login").permitAll() // Routes accessibles uniquement aux admins
+                        // .pathMatchers("/admin/**").hasRole("ADMIN") // Routes accessibles uniquement aux admins
                         .pathMatchers("/**").hasRole("USER")
                         .anyExchange().authenticated() // Toutes les autres routes nécessitent une authentification
                 )
-                .httpBasic().and() // Active l'authentification HTTP Basic
-                //.httpBasic(httpBasic -> httpBasic.authenticationEntryPoint(new BasicAuthenticationEntryPoint())) // Nouvelle approche pour HTTP Basic
-                //.httpBasic(httpBasic -> httpBasic.authenticationEntryPoint(new CustomAuthenticationEntryPoint())) // Utilisation de l'entrée personnalisée
-                //.httpBasic(httpBasic -> httpBasic.authenticationEntryPoint(new HttpStatusServerEntryPoint(HttpStatus.UNAUTHORIZED))) // Utilisation de HttpStatusServerEntryPoint
-
-                .csrf().disable(); // Désactive CSRF
+                //.formLogin(formLogin -> formLogin.loginPage("/login"))
+                .httpBasic(Customizer.withDefaults())
+                .csrf(ServerHttpSecurity.CsrfSpec::disable)
+                .securityContextRepository(NoOpServerSecurityContextRepository.getInstance()); // Rend le contexte de sécurité sans état
         ;
+
         return http.build();
     }
 
