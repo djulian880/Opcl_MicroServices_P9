@@ -48,6 +48,7 @@ public class SpringSecurityConfig {
         http
                 .authorizeExchange(exchange -> exchange
                         .pathMatchers("/public/**").permitAll() // Routes publiques
+                        .pathMatchers("/Persons/**").permitAll() // Routes publiques
                         .pathMatchers("/admin/**").hasRole("ADMIN") // Routes accessibles uniquement aux admins
                         .pathMatchers("/**").hasRole("USER")
                         .anyExchange().authenticated() // Toutes les autres routes nécessitent une authentification
