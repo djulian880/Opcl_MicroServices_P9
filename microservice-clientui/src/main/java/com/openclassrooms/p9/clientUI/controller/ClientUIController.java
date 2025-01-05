@@ -55,10 +55,10 @@ public class ClientUIController {
         Optional<PatientBean> patientUpdated =Optional.of(patientsProxy.mettreAJourUnPatient(id,patient));;
         if (patientUpdated.isPresent()) {
 
-            return "redirect:/";
+            return "redirect:http://localhost:8080";
         } else {
             //log.error("Patient with id {} not found", id);
-            return "redirect:/";
+            return "redirect:http://localhost:8080";
         }
     }
 
@@ -79,13 +79,13 @@ public class ClientUIController {
             //log.error("Patient with id {} not found", id);
             return "redirect:/";
         }*/
-        return "redirect:/";
+        return "redirect:http://localhost:8080";
     }
 
     @GetMapping("/details-patient/remove/{id}")
     public String showAddPatientForm(@PathVariable("id") Integer id) {
         patientsProxy.supprimerUnPatient(id);
-        return "redirect:/";
+        return "redirect:http://localhost:8080";
     }
 
 
