@@ -1,12 +1,13 @@
 package com.openclassrooms.p9.clientUI.proxies;
 
 import com.openclassrooms.p9.clientUI.beans.PatientBean;
+import com.openclassrooms.p9.clientUI.configuration.FeignClientConfig;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.cloud.openfeign.FeignClient;
 
 import java.util.List;
 
-@FeignClient(name = "microservice-gateway", url = "localhost:8080")
+@FeignClient(name = "microservice-gateway", url = "localhost:8080",  configuration = FeignClientConfig.class)
 public interface MicroServicePatientProxy {
 
     @GetMapping(value = "/Patients")
