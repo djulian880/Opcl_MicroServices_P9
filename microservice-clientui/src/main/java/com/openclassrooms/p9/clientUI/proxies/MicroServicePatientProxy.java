@@ -6,7 +6,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 
 import java.util.List;
 
-@FeignClient(name = "microservice-patient", url = "localhost:8100")
+@FeignClient(name = "microservice-gateway", url = "localhost:8080")
 public interface MicroServicePatientProxy {
 
     @GetMapping(value = "/Patients")
