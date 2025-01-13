@@ -1,5 +1,6 @@
 package com.openclassrooms.p9.clientUI.controller;
 
+import com.openclassrooms.p9.clientUI.beans.NotePatientBean;
 import com.openclassrooms.p9.clientUI.beans.PatientBean;
 import com.openclassrooms.p9.clientUI.proxies.MicroServicePatientProxy;
 import org.springframework.stereotype.Controller;
@@ -86,6 +87,45 @@ public class ClientUIController {
     public String showAddPatientForm(@PathVariable("id") Integer id) {
         patientsProxy.supprimerUnPatient(id);
         return "redirect:http://localhost:8080";
+    }
+
+    @GetMapping("/notes-patient/{id}")
+    public String showNotesForm(@PathVariable("id") Integer id, Model model) {
+        Optional<PatientBean> patient =Optional.of(patientsProxy.recupererUnPatient(id));;
+        if (patient.isPresent()) {
+            PatientBean patientFound = patient.get();
+            List<NotePatientBean> listeNotes=patientsProxy.recupererNotesPatient(patientFound.getId());
+
+            model.addAttribute("listeNotes", listeNotes);
+            model.addAttribute("patient", patientFound);
+            model.addAttribute("notePatient", new NotePatientBean());
+            return "NotePatient";
+        } else {
+            //log.error("Patient with id {} not found", id);
+            return "NotePatient";
+        }
+    }
+
+    @PostMapping("/notes-patient/{id}")
+    public String addNotePatient( @PathVariable("id") Integer id,NotePatientBean notePatient, Model model) {
+        notePatient.setIdPatient(id);
+        Optional<PatientBean> patient =Optional.of(patientsProxy.recupererUnPatient(id));;
+        if (patient.isPresent()) {
+            notePatient.setNomPatient(patient.get().getNom());
+            notePatient.setId(null);
+        }
+        //System.out.println(notePatient);
+
+        patientsProxy.AjouterNoteAUnPatient(notePatient,id);
+        /*Optional<PatientBean> patientAdded =Optional.of(patientsProxy.AjouterUnPatient(patient));;
+        if (patientAdded.isPresent()) {
+
+            return "redirect:/";
+        } else {
+            //log.error("Patient with id {} not found", id);
+            return "redirect:/";
+        }*/
+        return "redirect:/notes-patient/"+id;
     }
 
 

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="container">
+    <h1 th:text="'Application médiLabo Solutions - Notes du patient'+${patient.nom}+' '+${patient.prenom}"></h1>
+    <table>
+        <tr th:each="note : ${listeNotes}" >
+            <td> - </td>
+            <td th:text= "${note.contenu}"></td>
+        </tr>
+    </table>
+    <h2>Ajouter une note</h2>
+    <form action="#" th:action="@{/notes-patient/{id}(id=${patient.id})}" th:object="${notePatient}" method="post" style="width: 100%">
+        <div>
+            <label for="contenu">Contenu:</label>
+            <div>
+                <input type="text" th:field="*{contenu}" id="contenu">
+                <p th:if="${#fields.hasErrors('contenu')}" th:errors="*{contenu}"></p>
+            </div>
+        </div>
+
+
+        <div>
+                <a href="/">Annuler</a>
+                <input type="submit" value="Ajouter Note">
+
+        </div>
+    </form>
+</div>
+</body>
+</html>

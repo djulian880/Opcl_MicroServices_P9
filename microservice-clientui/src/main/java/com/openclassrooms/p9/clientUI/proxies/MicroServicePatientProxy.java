@@ -1,5 +1,6 @@
 package com.openclassrooms.p9.clientUI.proxies;
 
+import com.openclassrooms.p9.clientUI.beans.NotePatientBean;
 import com.openclassrooms.p9.clientUI.beans.PatientBean;
 import com.openclassrooms.p9.clientUI.configuration.FeignClientConfig;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +26,9 @@ public interface MicroServicePatientProxy {
     @DeleteMapping(value = "/Patients/{id}")
     public void supprimerUnPatient(@PathVariable("id") int id) ;
 
+    @GetMapping(value = "/NotesPatients/{id}")
+    public List<NotePatientBean> recupererNotesPatient(@PathVariable("id") int id) ;
 
-
+    @PostMapping(value = "/NotesPatients/{id}")
+    public void AjouterNoteAUnPatient(@RequestBody NotePatientBean notePatient,@PathVariable("id") int id) ;
 }
