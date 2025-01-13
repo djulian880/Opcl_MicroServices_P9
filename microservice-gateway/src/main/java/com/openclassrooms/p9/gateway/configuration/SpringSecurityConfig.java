@@ -2,7 +2,6 @@ package com.openclassrooms.p9.gateway.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
@@ -11,10 +10,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint;
 import org.springframework.security.web.server.SecurityWebFilterChain;
-import org.springframework.security.web.server.ServerAuthenticationEntryPoint;
-import org.springframework.security.web.server.authentication.HttpStatusServerEntryPoint;
 import org.springframework.security.web.server.context.NoOpServerSecurityContextRepository;
 
 @Configuration
@@ -27,8 +23,6 @@ public class SpringSecurityConfig {
     public MapReactiveUserDetailsService userDetailsService() {
         // Créez un encodeur pour sécuriser les mots de passe
         PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
-        //System.out.println("Encoded password for 'user': " + encoder.encode("user"));
-        //System.out.println("Encoded password for 'admin': " + encoder.encode("admin"));
 
         // Définir les utilisateurs
         UserDetails user = User.withUsername("user")
@@ -60,7 +54,7 @@ public class SpringSecurityConfig {
                 .httpBasic(Customizer.withDefaults())
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
                 .securityContextRepository(NoOpServerSecurityContextRepository.getInstance()); // Rend le contexte de sécurité sans état
-        ;
+
 
         return http.build();
     }
