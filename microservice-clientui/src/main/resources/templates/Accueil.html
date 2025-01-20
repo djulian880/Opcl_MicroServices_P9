@@ -9,6 +9,16 @@
 <div class="container">
     <h1>Application médiLabo Solutions</h1>
     <table>
+
+            <th>Nom</th>
+            <th>Prénom</th>
+            <th>Adresse</th>
+            <th>Date de Naissance</th>
+            <th>Genre</th>
+            <th>N° Tél</th>
+            <th>Supprimer</th>
+            <th>Notes</th>
+
         <tr th:each="patient : ${patients}" >
                 <td><a th:href="@{|/details-patient/${patient.id}|}" th:text= "${patient.nom}"></a></td>
                 <td th:text= "${patient.prenom}"></td>

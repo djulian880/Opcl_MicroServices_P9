@@ -26,9 +26,15 @@ public interface MicroServicePatientProxy {
     @DeleteMapping(value = "/Patients/{id}")
     public void supprimerUnPatient(@PathVariable("id") int id) ;
 
-    @GetMapping(value = "/NotesPatients/{id}")
+    @GetMapping(value = "/NotesPatients/Patient/{id}")
     public List<NotePatientBean> recupererNotesPatient(@PathVariable("id") int id) ;
 
-    @PostMapping(value = "/NotesPatients/{id}")
+    @PostMapping(value = "/NotesPatients/Patient/{id}")
     public void AjouterNoteAUnPatient(@RequestBody NotePatientBean notePatient,@PathVariable("id") int id) ;
+
+    @DeleteMapping(value = "/NotesPatients/{id}")
+    public void SupprimerNotePatient(@PathVariable("id") String id) ;
+
+    @GetMapping(value = "/NotesPatients/{id}")
+    public NotePatientBean recupererNotePatient(@PathVariable("id") String id) ;
 }

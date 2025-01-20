@@ -114,19 +114,15 @@ public class ClientUIController {
             notePatient.setNomPatient(patient.get().getNom());
             notePatient.setId(null);
         }
-        //System.out.println(notePatient);
-
         patientsProxy.AjouterNoteAUnPatient(notePatient,id);
-        /*Optional<PatientBean> patientAdded =Optional.of(patientsProxy.AjouterUnPatient(patient));;
-        if (patientAdded.isPresent()) {
-
-            return "redirect:/";
-        } else {
-            //log.error("Patient with id {} not found", id);
-            return "redirect:/";
-        }*/
         return "redirect:/notes-patient/"+id;
     }
 
+    @GetMapping("/notes-patient/remove/{id}")
+    public String removeNotePatient(@PathVariable("id") String id) {
+        NotePatientBean notePatient=patientsProxy.recupererNotePatient(id);
+        patientsProxy.SupprimerNotePatient(id);
+        return "redirect:/notes-patient/"+notePatient.getIdPatient();
+    }
 
 }
