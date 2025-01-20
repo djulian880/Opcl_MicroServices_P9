@@ -68,6 +68,14 @@
 			<artifactId>netty-resolver-dns-native-macos</artifactId>
 			<classifier>osx-aarch_64</classifier> <!-- Pour Apple Silicon -->
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+		</dependency>
 	</dependencies>
 	<dependencyManagement>
 		<dependencies>
