@@ -32,19 +32,21 @@ public class NotePatientController {
         return notePatientRepository.findAll();
     }
 
-    /*
+    // Show a note by NoteId
     @GetMapping(value = "/NotesPatients/{id}")
-    public List<NotePatient> showNotePatient(@PathVariable int id) {
+    public ResponseEntity<NotePatient> showNotePatient(@PathVariable String id) {
+        Optional<NotePatient> note = notePatientService.getNotePatientById(id);
+        if(note.isPresent()){
+            System.out.println("Note trouvée");
+            NotePatient noteFound = note.get();
+            return ResponseEntity.ok(noteFound);
+        }
+        return ResponseEntity.noContent().build();
 
+    }
 
-            List<NotePatient> notes = notePatientService.getNotesByIdPatient(id);
-        //notes.forEach(log::INFO);
-        notes.stream().forEach((NotePatient) -> log.info(NotePatient.getContenu()));
-        return notes;
-
-    }*/
-
-    @GetMapping(value = "/NotesPatients/{idPatient}")
+    // Show a note by id of Patient
+    @GetMapping(value = "/NotesPatients/Patient/{idPatient}")
     public ResponseEntity<List<NotePatient>> getNotesByIdPatient(@PathVariable Integer idPatient) {
 
         List<NotePatient> notes = notePatientService.getNotesByIdPatient(idPatient);
@@ -54,31 +56,31 @@ public class NotePatientController {
         return ResponseEntity.ok(notes);  // Retourne les notes dans la réponse
     }
 
-    /*
-    @PutMapping(value = "/NotesPatients/{idPatient}")
-    public ResponseEntity<NotePatient> updatePatient(@Valid @RequestBody NotePatient notePatient, @PathVariable int idPatient) {
-        Optional<Patient> patientFound = patientService.getPatientById(id);
-        if (patientFound.isPresent()) {
-            patient.setId(id);
-            Patient patientUpdated = patientService.savePatient(patient);
+    // Update a note by id
+    @PutMapping(value = "/NotesPatients/{id}")
+    public ResponseEntity<NotePatient> updateNotePatient(@RequestBody NotePatient notePatient, @PathVariable String id) {
+        Optional<NotePatient> notePatientFound = notePatientService.getNotePatientById(id);
+        if (notePatientFound.isPresent()) {
 
-            if (Objects.isNull(patientUpdated)) {
+            NotePatient notePatientUpdated = notePatientService.saveNotePatient(notePatient);
+
+            if (Objects.isNull(notePatientUpdated)) {
                 return ResponseEntity.noContent().build();
             }
 
             URI location = ServletUriComponentsBuilder
                     .fromCurrentRequest()
                     .path("/{id}")
-                    .buildAndExpand(patientUpdated.getId())
+                    .buildAndExpand(notePatientUpdated.getId())
                     .toUri();
-            return ResponseEntity.ok(patientUpdated);
+            return ResponseEntity.ok(notePatientUpdated);
         }
         else{
-            throw new PatientNotFoundException();
+            throw new NotePatientNotFoundException();
         }
-    }*/
+    }
 
-    @PostMapping(value = "/NotesPatients/{idPatient}")
+    @PostMapping(value = "/NotesPatients/Patient/{idPatient}")
     public ResponseEntity<NotePatient> addNotePatient(@RequestBody NotePatient notePatient,@PathVariable Integer idPatient) {
         //log.info(idPatient.toString());
 
@@ -97,25 +99,26 @@ public class NotePatientController {
         return ResponseEntity.created(location).build();
     }
 
-/*
-    @DeleteMapping ("/Patients/{id}")
-    public void deletePatient(@PathVariable("id") Integer id) {
-        Optional<Patient> patientFound = patientService.getPatientById(id);
-        if (patientFound.isPresent()) {
-            patientService.deletePatientById(id);
+
+    @DeleteMapping ("/NotesPatients/{id}")
+    public ResponseEntity<Void> deleteNotePatient(@PathVariable("id") String id) {
+        Optional<NotePatient> notePatientFound = notePatientService.getNotePatientById(id);
+        if (notePatientFound.isPresent()) {
+            notePatientService.deleteNotePatientById(id);
+            return ResponseEntity.ok().build();
         }
         else {
-            throw new PatientNotFoundException();
+            throw new NotePatientNotFoundException();
         }
     }
 
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public static class PatientNotFoundException extends RuntimeException {
-        public PatientNotFoundException() {
-            super("Patient not found");
+    public static class NotePatientNotFoundException extends RuntimeException {
+        public NotePatientNotFoundException() {
+            super("NotePatient not found");
         }
     }
-    */
+
 
 }

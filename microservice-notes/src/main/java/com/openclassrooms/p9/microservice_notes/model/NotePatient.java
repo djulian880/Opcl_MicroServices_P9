@@ -1,5 +1,6 @@
 package com.openclassrooms.p9.microservice_notes.model;
 
+import jakarta.persistence.Column;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -9,6 +10,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class NotePatient {
 
     @Id
+    @Column(name = "_id")
     private String id;
 
     private Integer idPatient;

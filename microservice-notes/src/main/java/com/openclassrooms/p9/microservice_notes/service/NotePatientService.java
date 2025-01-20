@@ -14,20 +14,19 @@ public class NotePatientService {
     NotePatientRepository notePatientRepository;
 
     public List<NotePatient> getNotesByIdPatient(Integer id) {
-
         return notePatientRepository.findByIdPatient(id);
     }
 
-    /*public Optional<Patient> getPatientById(Integer Id) {
-        return patientRepository.findById(Id);
-    }*/
-
+    public Optional<NotePatient> getNotePatientById(String id) {
+        return notePatientRepository.findById(id);
+    }
 
     public NotePatient saveNotePatient(NotePatient notePatient) {
         return notePatientRepository.save(notePatient);
     }
 
-    /*public void deletePatientById(Integer id) {
-        patientRepository.deleteById(id);
-    }*/
+    public void deleteNotePatientById(String id) {
+        notePatientRepository.deleteById(id);
+    }
+
 }

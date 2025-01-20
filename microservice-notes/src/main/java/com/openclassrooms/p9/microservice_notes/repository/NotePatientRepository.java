@@ -7,12 +7,12 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface NotePatientRepository extends MongoRepository<NotePatient, String> {
 
     @Query(value="{'idPatient': ?0}")
     List<NotePatient> findByIdPatient(@Param("idPatient") Integer id);
-
 
 }
