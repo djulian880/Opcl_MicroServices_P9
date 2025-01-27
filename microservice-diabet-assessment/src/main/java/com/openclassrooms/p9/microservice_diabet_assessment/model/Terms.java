@@ -10,12 +10,13 @@ public class Terms {
         "Hémoglobine A1C",
         "Microalbumine",
         "Taille",
-        "Poids" ,
-        "Fumeur", "Fumeuse" ,
-        "Anormal" ,
+        "Poids",
+        "Fumeur", "Fumeuse",
+        "Anormal",
         "Cholestérol",
         "Vertiges",
         "Rechute",
-            "Réaction",
-        "Anticorps");
+        "Réaction",
+        "Anticorps"
+    );
 }
