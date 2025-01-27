@@ -105,6 +105,14 @@ public class ClientUIController {
     @GetMapping("/details-patient/remove/{id}")
     public String showAddPatientForm(@PathVariable("id") Integer id) {
         patientsProxy.supprimerUnPatient(id);
+        Optional<List<NotePatientBean>> listeNotesRecuperees=patientsProxy.recupererNotesPatient(id);
+        if(listeNotesRecuperees.isPresent()){
+            List<NotePatientBean> listeNotes=listeNotesRecuperees.get();
+            for (NotePatientBean notePatient : listeNotes) {
+                patientsProxy.SupprimerNotePatient(notePatient.getId());
+            }
+        }
+
         return "redirect:http://localhost:8080";
     }
 
@@ -113,9 +121,12 @@ public class ClientUIController {
         Optional<PatientBean> patient =Optional.of(patientsProxy.recupererUnPatient(id));;
         if (patient.isPresent()) {
             PatientBean patientFound = patient.get();
-            List<NotePatientBean> listeNotes=patientsProxy.recupererNotesPatient(patientFound.getId());
 
-            model.addAttribute("listeNotes", listeNotes);
+            Optional<List<NotePatientBean>> listeNotesRecuperees=patientsProxy.recupererNotesPatient(patientFound.getId());
+            if(listeNotesRecuperees.isPresent()){
+                List<NotePatientBean> listeNotes=listeNotesRecuperees.get();
+                model.addAttribute("listeNotes", listeNotes);
+            }
             model.addAttribute("patient", patientFound);
             model.addAttribute("notePatient", new NotePatientBean());
             return "NotePatient";
