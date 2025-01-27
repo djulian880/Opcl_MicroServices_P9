@@ -1,14 +1,13 @@
 package com.openclassrooms.p9.microservice_patient.controller;
 
+import com.openclassrooms.p9.microservice_patient.exception.PatientNotFoundException;
 import com.openclassrooms.p9.microservice_patient.model.Patient;
 import com.openclassrooms.p9.microservice_patient.service.PatientService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
 import java.net.URI;
 import java.util.List;
 import java.util.Objects;
@@ -21,8 +20,7 @@ public class PatientController {
     PatientService patientService;
 
     @GetMapping("/Patients")
-    public List<Patient> listAll()
-    {
+    public List<Patient> listAll() {
         return patientService.getAll();
     }
 
@@ -30,15 +28,14 @@ public class PatientController {
     public Patient showPatient(@PathVariable int id) {
         Optional<Patient> patientFound = patientService.getPatientById(id);
         if (patientFound.isPresent()) {
-             return patientFound.get();
-        }
-        else{
+            return patientFound.get();
+        } else {
             throw new PatientNotFoundException();
         }
     }
 
     @PutMapping(value = "/Patients/{id}")
-    public ResponseEntity<Patient> updatePatient(@Valid @RequestBody Patient patient,@PathVariable int id) {
+    public ResponseEntity<Patient> updatePatient(@Valid @RequestBody Patient patient, @PathVariable int id) {
         Optional<Patient> patientFound = patientService.getPatientById(id);
         if (patientFound.isPresent()) {
             patient.setId(id);
@@ -48,14 +45,8 @@ public class PatientController {
                 return ResponseEntity.noContent().build();
             }
 
-            URI location = ServletUriComponentsBuilder
-                    .fromCurrentRequest()
-                    .path("/{id}")
-                    .buildAndExpand(patientUpdated.getId())
-                    .toUri();
             return ResponseEntity.ok(patientUpdated);
-        }
-        else{
+        } else {
             throw new PatientNotFoundException();
         }
     }
@@ -76,23 +67,14 @@ public class PatientController {
         return ResponseEntity.created(location).build();
     }
 
-
-    @DeleteMapping ("/Patients/{id}")
+    @DeleteMapping("/Patients/{id}")
     public void deletePatient(@PathVariable("id") Integer id) {
         Optional<Patient> patientFound = patientService.getPatientById(id);
         if (patientFound.isPresent()) {
             patientService.deletePatientById(id);
-        }
-        else {
+        } else {
             throw new PatientNotFoundException();
         }
     }
 
-
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public static class PatientNotFoundException extends RuntimeException {
-        public PatientNotFoundException() {
-            super("Patient not found");
-        }
-    }
 }
