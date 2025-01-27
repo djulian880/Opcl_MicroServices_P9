@@ -1,0 +1,84 @@
+name: MedilaboSolution
+
+services:
+  eureka-server:
+    build:
+      context: ./eureka-server/
+    ports:
+      - 9102:9102
+    restart: always
+    container_name: eureka-server
+    networks: 
+       - my-network
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+
+  microservice-clientui:
+    build:
+      context: ./microservice-clientui/
+    container_name: microservice-clientui
+    restart: always
+    depends_on: 
+      - eureka-server
+    networks: 
+       - my-network
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+
+  microservice-gateway:
+    build:
+      context: ./microservice-gateway/
+    ports:
+      - 8080:8080
+    container_name: microservice-gateway
+    restart: always
+    depends_on: 
+      - eureka-server
+    networks: 
+       - my-network
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+
+  microservice-patient:
+    build:
+      context: ./microservice-patient/
+    container_name: microservice-patient
+    networks: 
+       - my-network
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    ports:
+      - 3306:3306
+    restart: always
+    depends_on: 
+      - eureka-server
+
+  microservice-notes:
+    build:
+      context: ./microservice-notes/
+    container_name: microservice-notes
+    ports:
+      - 27017:27017
+    restart: always
+    depends_on: 
+      - eureka-server
+    networks: 
+       - my-network
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      
+  microservice-diabet-assessment:
+    build:
+      context: ./microservice-diabet-assessment/
+    container_name: microservice-diabet-assessment
+    restart: always
+    depends_on: 
+      - eureka-server
+    networks: 
+       - my-network
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+            
+networks:
+  my-network:
+    driver: bridge
