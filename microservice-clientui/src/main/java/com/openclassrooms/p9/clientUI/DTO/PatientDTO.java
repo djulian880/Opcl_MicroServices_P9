@@ -1,14 +1,11 @@
-package com.openclassrooms.p9.clientUI.beans;
+package com.openclassrooms.p9.clientUI.DTO;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
-//@Data
 @Getter
 @Setter
-public class PatientBean{
-
+public class PatientDTO {
     private Integer id;
     private String prenom;
     private String nom;
@@ -16,6 +13,5 @@ public class PatientBean{
     private String genre;
     private String adressePostale;
     private String numeroDeTelephone;
-
-
+    private String rapportDiabete;
 }

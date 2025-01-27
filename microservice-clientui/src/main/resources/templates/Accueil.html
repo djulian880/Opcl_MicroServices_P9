@@ -18,7 +18,7 @@
             <th>N° Tél</th>
             <th>Supprimer</th>
             <th>Notes</th>
-
+            <th>Risque diabète</th>
         <tr th:each="patient : ${patients}" >
                 <td><a th:href="@{|/details-patient/${patient.id}|}" th:text= "${patient.nom}"></a></td>
                 <td th:text= "${patient.prenom}"></td>
@@ -28,6 +28,7 @@
                 <td th:text= "${patient.numeroDeTelephone}"></td>
                 <td><a th:href="@{|/details-patient/remove/${patient.id}|}">Supprimer</a></td>
                 <td><a th:href="@{|/notes-patient/${patient.id}|}">Notes</a></td>
+                <td th:text= "${patient.rapportDiabete}"></td>
             </a>
         </tr>
     </table>

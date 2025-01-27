@@ -8,7 +8,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 
 import java.util.List;
 
-@FeignClient(name = "microservice-gateway", url = "localhost:8080",  configuration = FeignClientConfig.class)
+@FeignClient(name = "microservice-gateway", url = "${feign.client.url.microservice-gateway}",  configuration = FeignClientConfig.class)
 public interface MicroServicePatientProxy {
 
     @GetMapping(value = "/Patients")
@@ -37,4 +37,7 @@ public interface MicroServicePatientProxy {
 
     @GetMapping(value = "/NotesPatients/{id}")
     public NotePatientBean recupererNotePatient(@PathVariable("id") String id) ;
+
+    @GetMapping(value = "/RapportDiabete/{id}")
+    public String recupererRapportDiabete(@PathVariable("id") int id) ;
 }

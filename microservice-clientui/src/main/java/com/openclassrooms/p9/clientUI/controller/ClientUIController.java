@@ -1,5 +1,6 @@
 package com.openclassrooms.p9.clientUI.controller;
 
+import com.openclassrooms.p9.clientUI.DTO.PatientDTO;
 import com.openclassrooms.p9.clientUI.beans.NotePatientBean;
 import com.openclassrooms.p9.clientUI.beans.PatientBean;
 import com.openclassrooms.p9.clientUI.proxies.MicroServicePatientProxy;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,7 +28,24 @@ public class ClientUIController {
     @RequestMapping("/")
     public String accueil(Model model){
         List<PatientBean> patients =  patientsProxy.listeDesPatients();
-        model.addAttribute("patients", patients);
+
+        List<PatientDTO> patientsDTO= new ArrayList<>();
+        for(PatientBean patient: patients){
+            PatientDTO patientDTO = new PatientDTO();
+            patientDTO.setId(patient.getId());
+            patientDTO.setNom(patient.getNom());
+            patientDTO.setPrenom(patient.getPrenom());
+            patientDTO.setGenre(patient.getGenre());
+            patientDTO.setAdressePostale(patient.getAdressePostale());
+            patientDTO.setDateDeNaissance(patient.getDateDeNaissance());
+            patientDTO.setNumeroDeTelephone(patient.getNumeroDeTelephone());
+            patientDTO.setRapportDiabete(patientsProxy.recupererRapportDiabete(patient.getId()));
+            patientsDTO.add(patientDTO);
+        }
+
+
+        model.addAttribute("patients", patientsDTO);
+
         return "Accueil";
     }
 
@@ -115,14 +134,14 @@ public class ClientUIController {
             notePatient.setId(null);
         }
         patientsProxy.AjouterNoteAUnPatient(notePatient,id);
-        return "redirect:/notes-patient/"+id;
+        return "redirect:http://localhost:8080/notes-patient/"+id;
     }
 
     @GetMapping("/notes-patient/remove/{id}")
     public String removeNotePatient(@PathVariable("id") String id) {
         NotePatientBean notePatient=patientsProxy.recupererNotePatient(id);
         patientsProxy.SupprimerNotePatient(id);
-        return "redirect:/notes-patient/"+notePatient.getIdPatient();
+        return "redirect:http://localhost:8080/notes-patient/"+notePatient.getIdPatient();
     }
 
 }
