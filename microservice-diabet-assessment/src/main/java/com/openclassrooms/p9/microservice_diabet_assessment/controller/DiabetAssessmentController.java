@@ -22,7 +22,7 @@ public class DiabetAssessmentController {
     @Autowired
     DiabetAssessmentService diabetAssessmentService;
 
-    @GetMapping(value = "/Patients/diabet/{id}")
+    @GetMapping(value = "/RapportDiabete/{id}")
     public ResponseEntity<String> assessDiabetRisk(@PathVariable Integer id) {
             return ResponseEntity.ok(diabetAssessmentService.getAssessmentReport(id));
     }

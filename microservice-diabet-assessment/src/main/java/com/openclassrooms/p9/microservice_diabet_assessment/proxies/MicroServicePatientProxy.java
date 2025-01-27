@@ -7,8 +7,9 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
-@FeignClient(name = "microservice-gateway", url = "localhost:8080",  configuration = FeignClientConfig.class)
+@FeignClient(name = "microservice-gateway", url = "${feign.client.url.microservice-gateway}",  configuration = FeignClientConfig.class)
 public interface MicroServicePatientProxy {
 
     @GetMapping(value = "/Patients")
@@ -27,7 +28,7 @@ public interface MicroServicePatientProxy {
     public void supprimerUnPatient(@PathVariable("id") int id) ;
 
     @GetMapping(value = "/NotesPatients/Patient/{id}")
-    public List<NotePatientBean> recupererNotesPatient(@PathVariable("id") int id) ;
+    public Optional<List<NotePatientBean>> recupererNotesPatient(@PathVariable("id") int id) ;
 
     @PostMapping(value = "/NotesPatients/Patient/{id}")
     public void AjouterNoteAUnPatient(@RequestBody NotePatientBean notePatient,@PathVariable("id") int id) ;

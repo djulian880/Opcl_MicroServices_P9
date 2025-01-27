@@ -4,6 +4,7 @@ import com.openclassrooms.p9.microservice_diabet_assessment.beans.NotePatientBea
 import com.openclassrooms.p9.microservice_diabet_assessment.beans.PatientBean;
 import com.openclassrooms.p9.microservice_diabet_assessment.model.Terms;
 import com.openclassrooms.p9.microservice_diabet_assessment.proxies.MicroServicePatientProxy;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -11,10 +12,12 @@ import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 public class DiabetAssessmentService {
 
@@ -27,13 +30,22 @@ public class DiabetAssessmentService {
     public String getAssessmentReport(Integer idPatient){
 
         PatientBean patient=patientsProxy.recupererUnPatient(idPatient);
-
-        List<NotePatientBean> notesPatient=patientsProxy.recupererNotesPatient(idPatient);
+        log.info("**** "+patient.getNom()+" "+patient.getPrenom());
 
         long nbOccurencesTermes=0;
-        for (NotePatientBean notePatient : notesPatient) {
-            nbOccurencesTermes += countOccurrencesOfTerm(notePatient.getContenu());
+        Optional<List<NotePatientBean>> notesPatientlist=patientsProxy.recupererNotesPatient(idPatient);
+        if(notesPatientlist.isPresent()) {
+            List<NotePatientBean> notesPatient=notesPatientlist.get();
+            log.info("Nombre de notes:"+notesPatient.size());
+            for (NotePatientBean notePatient : notesPatient) {
+                log.info("Contenu d'une note:" + notePatient.getContenu());
+                long count = countOccurrencesOfTerm(notePatient.getContenu());
+                nbOccurencesTermes += count;
+                log.info("Nb occurence:" + count);
+            }
         }
+        log.info("Nombre d'occurences:"+nbOccurencesTermes);
+        log.info("Genre:"+patient.getGenre());
 
         return returnAssessment(calculerAge(patient.getDateDeNaissance()),patient.getGenre(),nbOccurencesTermes);
     }
@@ -66,23 +78,24 @@ public class DiabetAssessmentService {
                     return "BorderLine";
                 } else if (countOfOccurence >= 6 && countOfOccurence <= 7) {
                     return "InDanger";
-                } else if (countOfOccurence > 8) {
+                } else if (countOfOccurence >= 8) {
                     return "EarlyOnSet";
-                } else {
-                    if (gender.contentEquals("F")) {
-                        if (countOfOccurence >= 4 && countOfOccurence <= 6) {
-                            return "InDanger";
-                        } else if (countOfOccurence > 7) {
-                            return "EarlyOnSet";
-                        }
-                    } else if (gender.contentEquals("M")) {
-                        if (countOfOccurence >= 3 && countOfOccurence <= 4) {
-                            return "InDanger";
-                        } else if (countOfOccurence > 5) {
-                            return "EarlyOnSet";
-                        }
+                }
+            } else {
+                if (gender.contentEquals("F")) {
+                    if (countOfOccurence >= 4 && countOfOccurence <= 6) {
+                        return "InDanger";
+                    } else if (countOfOccurence >= 7) {
+                        return "EarlyOnSet";
+                    }
+                } else if (gender.contentEquals("M")) {
+                    if (countOfOccurence >= 3 && countOfOccurence <= 4) {
+                        return "InDanger";
+                    } else if (countOfOccurence >= 5) {
+                        return "EarlyOnSet";
                     }
                 }
+
             }
         }
         return "None";
@@ -97,7 +110,7 @@ public class DiabetAssessmentService {
     }
 
     public static long countOccurrencesWithPattern(String content, String item) {
-        Pattern pattern = Pattern.compile(Pattern.quote(item));
+        Pattern pattern = Pattern.compile(Pattern.quote(item), Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(content);
 
         long count = 0;
@@ -120,6 +133,7 @@ public class DiabetAssessmentService {
 
         LocalDate today = LocalDate.now();  // La date d'aujourd'hui
         Period period = Period.between(dateNaissance, today);  // Calculer la période entre la date de naissance et aujourd'hui
+        log.info("Date de naissance:"+dateNaissanceStr+" Age:"+period.getYears());
         return period.getYears();  // Récupérer l'âge en années
     }
 
