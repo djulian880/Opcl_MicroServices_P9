@@ -23,14 +23,19 @@
   <div>
     <label for="dateDeNaissance">dateDeNaissance</label>
     <div>
-      <input type="text" th:field="*{dateDeNaissance}" id="dateDeNaissance">
+      <input type="date" th:field="*{dateDeNaissance}" id="dateDeNaissance">
       <p th:if="${#fields.hasErrors('dateDeNaissance')}" th:errors="*{dateDeNaissance}"></p>
     </div>
   </div>
   <div>
     <label for="genre">genre</label>
     <div>
-      <input type="text" th:field="*{genre}" id="genre">
+      <select id="genre" th:field="*{genre}">
+        <option value="" disabled selected>Choisissez un genre</option>
+        <option value="F">F</option>
+        <option value="M">M</option>
+      </select>
+
       <p th:if="${#fields.hasErrors('genre')}" th:errors="*{genre}"></p>
     </div>
   </div>
