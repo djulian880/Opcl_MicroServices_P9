@@ -1,6 +1,5 @@
 package com.openclassrooms.p9.microservice_diabet_assessment.model;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 

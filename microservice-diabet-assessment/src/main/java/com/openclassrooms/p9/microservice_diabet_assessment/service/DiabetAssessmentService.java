@@ -10,12 +10,10 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -30,22 +28,22 @@ public class DiabetAssessmentService {
     public String getAssessmentReport(Integer idPatient){
 
         PatientBean patient=patientsProxy.recupererUnPatient(idPatient);
-        log.info("**** "+patient.getNom()+" "+patient.getPrenom());
+        log.debug("**** "+patient.getNom()+" "+patient.getPrenom());
 
         long nbOccurencesTermes=0;
         Optional<List<NotePatientBean>> notesPatientlist=patientsProxy.recupererNotesPatient(idPatient);
         if(notesPatientlist.isPresent()) {
             List<NotePatientBean> notesPatient=notesPatientlist.get();
-            log.info("Nombre de notes:"+notesPatient.size());
+            log.debug("Nombre de notes:"+notesPatient.size());
             for (NotePatientBean notePatient : notesPatient) {
-                log.info("Contenu d'une note:" + notePatient.getContenu());
+                log.debug("Contenu d'une note:" + notePatient.getContenu());
                 long count = countOccurrencesOfTerm(notePatient.getContenu());
                 nbOccurencesTermes += count;
-                log.info("Nb occurence:" + count);
+                log.debug("Nb occurence:" + count);
             }
         }
-        log.info("Nombre d'occurences:"+nbOccurencesTermes);
-        log.info("Genre:"+patient.getGenre());
+        log.debug("Nombre d'occurences:"+nbOccurencesTermes);
+        log.debug("Genre:"+patient.getGenre());
 
         return returnAssessment(calculerAge(patient.getDateDeNaissance()),patient.getGenre(),nbOccurencesTermes);
     }
@@ -121,20 +119,14 @@ public class DiabetAssessmentService {
         return count;
     }
 
-
-
-    // Méthode pour calculer l'âge à partir d'une date de naissance
     public static int calculerAge(String dateNaissanceStr) {
-        //String dateNaissanceStr = "1990-05-15";
-
         // Convertir la String en LocalDate
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate dateNaissance = LocalDate.parse(dateNaissanceStr, formatter);
-
-        LocalDate today = LocalDate.now();  // La date d'aujourd'hui
-        Period period = Period.between(dateNaissance, today);  // Calculer la période entre la date de naissance et aujourd'hui
-        log.info("Date de naissance:"+dateNaissanceStr+" Age:"+period.getYears());
-        return period.getYears();  // Récupérer l'âge en années
+        LocalDate today = LocalDate.now();
+        Period period = Period.between(dateNaissance, today);
+        log.debug("Date de naissance:"+dateNaissanceStr+" Age:"+period.getYears());
+        return period.getYears();
     }
 
 }
