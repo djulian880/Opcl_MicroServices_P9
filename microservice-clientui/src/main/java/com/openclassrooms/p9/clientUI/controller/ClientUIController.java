@@ -50,7 +50,7 @@ public class ClientUIController {
 
     @GetMapping("/details-patient/{id}")
     public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
-        Optional<PatientBean> patient =Optional.of(patientsProxy.recupererUnPatient(id));;
+        Optional<PatientBean> patient =Optional.of(patientsProxy.recupererUnPatient(id));
         if (patient.isPresent()) {
             PatientBean patientFound = patient.get();
             model.addAttribute("patient", patientFound);
@@ -62,8 +62,8 @@ public class ClientUIController {
     }
 
     @PostMapping("/details-patient/update/{id}")
-    public String updatePatient(@PathVariable("id") Integer id, PatientBean patient, Model model) {
-        Optional<PatientBean> patientUpdated =Optional.of(patientsProxy.mettreAJourUnPatient(id,patient));;
+    public String updatePatient(@PathVariable("id") Integer id, PatientBean patient) {
+        Optional<PatientBean> patientUpdated =Optional.of(patientsProxy.mettreAJourUnPatient(id,patient));
         if (patientUpdated.isPresent()) {
 
             return "redirect:http://localhost:8080";
@@ -74,13 +74,13 @@ public class ClientUIController {
     }
 
     @GetMapping("/details-patient/add")
-    public String showAddPatientForm( PatientBean patient, Model model) {
+    public String showAddPatientForm(Model model) {
         model.addAttribute("patient", new PatientBean());
             return "AjoutPatient";
     }
 
     @PostMapping("/details-patient/add")
-    public String addPatient( PatientBean patient, Model model) {
+    public String addPatient( PatientBean patient) {
         patientsProxy.AjouterUnPatient(patient);
         return "redirect:http://localhost:8080";
     }
@@ -101,7 +101,7 @@ public class ClientUIController {
 
     @GetMapping("/notes-patient/{id}")
     public String showNotesForm(@PathVariable("id") Integer id, Model model) {
-        Optional<PatientBean> patient =Optional.of(patientsProxy.recupererUnPatient(id));;
+        Optional<PatientBean> patient =Optional.of(patientsProxy.recupererUnPatient(id));
         if (patient.isPresent()) {
             PatientBean patientFound = patient.get();
 
@@ -120,9 +120,9 @@ public class ClientUIController {
     }
 
     @PostMapping("/notes-patient/{id}")
-    public String addNotePatient( @PathVariable("id") Integer id,NotePatientBean notePatient, Model model) {
+    public String addNotePatient( @PathVariable("id") Integer id,NotePatientBean notePatient) {
         notePatient.setIdPatient(id);
-        Optional<PatientBean> patient =Optional.of(patientsProxy.recupererUnPatient(id));;
+        Optional<PatientBean> patient =Optional.of(patientsProxy.recupererUnPatient(id));
         if (patient.isPresent()) {
             notePatient.setNomPatient(patient.get().getNom());
             notePatient.setId(null);
