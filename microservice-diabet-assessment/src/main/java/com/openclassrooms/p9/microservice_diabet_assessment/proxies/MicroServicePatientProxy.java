@@ -13,10 +13,10 @@ import java.util.Optional;
 public interface MicroServicePatientProxy {
 
     @GetMapping(value = "/Patients/{id}")
-    public PatientBean recupererUnPatient(@PathVariable("id") int id) ;
+    PatientBean recupererUnPatient(@PathVariable("id") int id) ;
 
     @GetMapping(value = "/NotesPatients/Patient/{id}")
-    public Optional<List<NotePatientBean>> recupererNotesPatient(@PathVariable("id") int id) ;
+    Optional<List<NotePatientBean>> recupererNotesPatient(@PathVariable("id") int id) ;
 
 
 }

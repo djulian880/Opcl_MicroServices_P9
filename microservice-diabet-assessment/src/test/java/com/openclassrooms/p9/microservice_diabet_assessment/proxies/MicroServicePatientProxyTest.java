@@ -9,12 +9,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
-import java.util.List;
+
 
 @SpringJUnitConfig
 @WebMvcTest(MicroServicePatientProxy.class) // Charge uniquement le proxy
@@ -52,20 +51,6 @@ class MicroServicePatientProxyTest {
         assertEquals("John", patient.getPrenom());
     }
 
-    @Test
-    void testListeDesPatients() {
-        wireMockServer.stubFor(get(urlEqualTo("/Patients"))
-                .willReturn(aResponse()
-                        .withHeader("Content-Type", "application/json")
-                        .withBody("[{ \"id\": 1, \"nom\": \"Doe\", \"prenom\": \"John\" }, " +
-                                "{ \"id\": 2, \"nom\": \"Smith\", \"prenom\": \"Alice\" }]")
-                        .withStatus(200)));
 
-        List<PatientBean> patients = patientProxy.listeDesPatients();
-
-        assertNotNull(patients);
-        assertEquals(2, patients.size());
-        assertEquals("Doe", patients.get(0).getNom());
-    }
 }
 

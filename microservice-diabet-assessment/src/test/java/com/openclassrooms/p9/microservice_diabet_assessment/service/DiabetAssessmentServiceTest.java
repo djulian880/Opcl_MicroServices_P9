@@ -89,7 +89,6 @@ class DiabetAssessmentServiceTest {
         when(patientsProxy.recupererUnPatient(1)).thenReturn(mockPatient1);
         when(patientsProxy.recupererNotesPatient(1)).thenReturn(Optional.of(List.of(note1)));
 
-
         // Deuxième patient
         PatientBean mockPatient2 = new PatientBean();
         mockPatient2.setId(2);
@@ -133,13 +132,12 @@ class DiabetAssessmentServiceTest {
         note43.setContenu("Le patient déclare avoir commencé à fumer depuis peu Hémoglobine A1C supérieure au niveau recommandé");
         NotePatientBean note44 = new NotePatientBean();
         note44.setContenu("Taille, Poids, Cholestérol, Vertige et Réaction");
-        when(patientsProxy.recupererUnPatient(4)).thenReturn(mockPatient3);
+        when(patientsProxy.recupererUnPatient(4)).thenReturn(mockPatient4);
         when(patientsProxy.recupererNotesPatient(4)).thenReturn(Optional.of(List.of(note41,note42,note43,note44)));
 
         assertEquals("None",diabetAssessmentService.getAssessmentReport(1));
         assertEquals("BorderLine",diabetAssessmentService.getAssessmentReport(2));
         assertEquals("InDanger",diabetAssessmentService.getAssessmentReport(3));
         assertEquals("EarlyOnSet",diabetAssessmentService.getAssessmentReport(4));
-
     }
 }
