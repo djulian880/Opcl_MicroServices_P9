@@ -21,10 +21,9 @@ public class SpringSecurityConfig {
 
     @Bean
     public MapReactiveUserDetailsService userDetailsService() {
-        // Créez un encodeur pour sécuriser les mots de passe
+
         PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
 
-        // Définir les utilisateurs
         UserDetails user = User.withUsername("user")
                 .password(encoder.encode("user123"))
                 .roles("USER")
@@ -35,7 +34,6 @@ public class SpringSecurityConfig {
                 .roles("ADMIN")
                 .build();
 
-        // Retournez le service en mémoire
         return new MapReactiveUserDetailsService(user, admin);
     }
 
@@ -43,19 +41,14 @@ public class SpringSecurityConfig {
     public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
         http
                 .authorizeExchange(exchange -> exchange
-                       // .pathMatchers("/public/**").permitAll() // Routes publiques
-                       // .pathMatchers("/Patients/**").permitAll() // Routes publiques
-                        .pathMatchers("/login").permitAll() // Routes accessibles uniquement aux admins
-                        // .pathMatchers("/admin/**").hasRole("ADMIN") // Routes accessibles uniquement aux admins
+                        .pathMatchers("/logi").permitAll()
+
                         .pathMatchers("/**").hasRole("USER")
-                        .anyExchange().authenticated() // Toutes les autres routes nécessitent une authentification
+                        .anyExchange().authenticated()
                 )
-                //.formLogin(formLogin -> formLogin.loginPage("/login"))
                 .httpBasic(Customizer.withDefaults())
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
                 .securityContextRepository(NoOpServerSecurityContextRepository.getInstance()); // Rend le contexte de sécurité sans état
-
-
         return http.build();
     }
 
