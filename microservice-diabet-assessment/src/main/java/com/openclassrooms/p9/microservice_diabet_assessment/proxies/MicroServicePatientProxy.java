@@ -11,31 +11,12 @@ import java.util.Optional;
 
 @FeignClient(name = "microservice-gateway", url = "${feign.client.url.microservice-gateway}",  configuration = FeignClientConfig.class)
 public interface MicroServicePatientProxy {
-// TODO: nettoyer les fonctions non utilisées
-    @GetMapping(value = "/Patients")
-    public List<PatientBean> listeDesPatients();
 
     @GetMapping(value = "/Patients/{id}")
     public PatientBean recupererUnPatient(@PathVariable("id") int id) ;
 
-    @PutMapping(value = "/Patients/{id}")
-    public PatientBean mettreAJourUnPatient(@PathVariable("id") int id,@RequestBody PatientBean patient) ;
-
-    @PostMapping(value = "/Patients")
-    public void AjouterUnPatient(@RequestBody PatientBean patient) ;
-
-    @DeleteMapping(value = "/Patients/{id}")
-    public void supprimerUnPatient(@PathVariable("id") int id) ;
-
     @GetMapping(value = "/NotesPatients/Patient/{id}")
     public Optional<List<NotePatientBean>> recupererNotesPatient(@PathVariable("id") int id) ;
 
-    @PostMapping(value = "/NotesPatients/Patient/{id}")
-    public void AjouterNoteAUnPatient(@RequestBody NotePatientBean notePatient,@PathVariable("id") int id) ;
 
-    @DeleteMapping(value = "/NotesPatients/{id}")
-    public void SupprimerNotePatient(@PathVariable("id") String id) ;
-
-    @GetMapping(value = "/NotesPatients/{id}")
-    public NotePatientBean recupererNotePatient(@PathVariable("id") String id) ;
 }
