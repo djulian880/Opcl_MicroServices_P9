@@ -26,5 +26,8 @@ Project goals:
 ## Green code improvements
 
 The following aspects could be improved in order to fulfill the green code recommandations:
-
+- Profile the code to improve the execution
+- Improve the microservices notes, this is the slowest
+- Improve the compilation speed
+- The NotePatient model class includes the name of patient, this is redundant with the patient class, could be removed
 
