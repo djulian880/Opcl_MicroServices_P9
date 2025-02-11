@@ -51,9 +51,9 @@ public class NotePatientController {
 
         List<NotePatient> notes = notePatientService.getNotesByIdPatient(idPatient);
         if (notes.isEmpty()) {
-            return ResponseEntity.noContent().build();  // Aucun résultat
+            return ResponseEntity.noContent().build();
         }
-        return ResponseEntity.ok(notes);  // Retourne les notes dans la réponse
+        return ResponseEntity.ok(notes);
     }
 
     // Update a note by id
@@ -82,11 +82,8 @@ public class NotePatientController {
 
     @PostMapping(value = "/NotesPatients/Patient/{idPatient}")
     public ResponseEntity<NotePatient> addNotePatient(@RequestBody NotePatient notePatient,@PathVariable Integer idPatient) {
-        //log.info(idPatient.toString());
-
         notePatient.setIdPatient(idPatient);
         NotePatient notePatientAdded = notePatientService.saveNotePatient(notePatient);
-        //log.info("Requete envoyée");
         if (Objects.isNull(notePatientAdded)) {
             return ResponseEntity.noContent().build();
         }
