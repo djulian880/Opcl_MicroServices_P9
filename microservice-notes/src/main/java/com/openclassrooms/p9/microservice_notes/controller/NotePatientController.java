@@ -67,12 +67,6 @@ public class NotePatientController {
             if (Objects.isNull(notePatientUpdated)) {
                 return ResponseEntity.noContent().build();
             }
-
-            URI location = ServletUriComponentsBuilder
-                    .fromCurrentRequest()
-                    .path("/{id}")
-                    .buildAndExpand(notePatientUpdated.getId())
-                    .toUri();
             return ResponseEntity.ok(notePatientUpdated);
         }
         else{
