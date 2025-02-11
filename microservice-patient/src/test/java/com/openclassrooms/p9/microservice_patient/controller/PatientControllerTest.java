@@ -1,7 +1,6 @@
 package com.openclassrooms.p9.microservice_patient.controller;
 
 import static org.mockito.Mockito.*;
-import static org.assertj.core.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
