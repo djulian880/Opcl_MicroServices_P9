@@ -6,7 +6,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
 @SpringBootApplication
-@EnableFeignClients("com.openclassrooms.p9.microservice_diabet_assessment")
+@EnableFeignClients("com.openclassrooms.p9.microservice_diabet_assessment.proxies")
 @EnableDiscoveryClient
 public class MicroserviceDiabetAssessmentApplication {
 

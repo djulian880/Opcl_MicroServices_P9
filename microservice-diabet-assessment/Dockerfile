@@ -9,11 +9,8 @@ WORKDIR /app
 # Copier le fichier JAR généré dans le conteneur
 COPY target/microservice-diabet-assessment-0.0.1-SNAPSHOT.jar /app/app.jar
 
-
-
 # Copier le fichier application-docker.properties
 COPY target/classes/application-docker.properties /app/config/application-docker.properties
-
 
 # Spécifier le port sur lequel l'application fonctionne
 EXPOSE 8112

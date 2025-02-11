@@ -11,7 +11,7 @@ import java.util.Optional;
 
 @FeignClient(name = "microservice-gateway", url = "${feign.client.url.microservice-gateway}",  configuration = FeignClientConfig.class)
 public interface MicroServicePatientProxy {
-
+// TODO: nettoyer les fonctions non utilisées
     @GetMapping(value = "/Patients")
     public List<PatientBean> listeDesPatients();
 
