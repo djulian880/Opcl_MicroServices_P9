@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div><a href="details-patient/add">Ajouter un nouveau patient</a></div>
+<div class="container">
+    <h1>Application médiLabo Solutions</h1>
+    <table>
+
+            <th>Nom</th>
+            <th>Prénom</th>
+            <th>Adresse</th>
+            <th>Date de Naissance</th>
+            <th>Genre</th>
+            <th>N° Tél</th>
+            <th>Supprimer</th>
+            <th>Notes</th>
+            <th>Risque diabète</th>
+        <tr th:each="patient : ${patients}" >
+                <td><a th:href="@{|/details-patient/${patient.id}|}" th:text= "${patient.nom}"></a></td>
+                <td th:text= "${patient.prenom}"></td>
+                <td th:text= "${patient.adressePostale}"></td>
+                <td th:text= "${patient.dateDeNaissance}"></td>
+                <td th:text= "${patient.genre}"></td>
+                <td th:text= "${patient.numeroDeTelephone}"></td>
+                <td><a th:href="@{|/details-patient/remove/${patient.id}|}">Supprimer</a></td>
+                <td><a th:href="@{|/notes-patient/${patient.id}|}">Notes</a></td>
+                <td th:text= "${patient.rapportDiabete}"></td>
+            </a>
+        </tr>
+    </table>
+</div>
+</body>
+</html>

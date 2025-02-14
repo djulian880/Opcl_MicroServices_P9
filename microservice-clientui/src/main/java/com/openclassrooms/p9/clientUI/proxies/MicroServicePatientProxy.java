@@ -1,0 +1,44 @@
+package com.openclassrooms.p9.clientUI.proxies;
+
+import com.openclassrooms.p9.clientUI.beans.NotePatientBean;
+import com.openclassrooms.p9.clientUI.beans.PatientBean;
+import com.openclassrooms.p9.clientUI.configuration.FeignClientConfig;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.cloud.openfeign.FeignClient;
+
+import java.util.List;
+import java.util.Optional;
+
+@FeignClient(name = "microservice-gateway", url = "${feign.client.url.microservice-gateway}",  configuration = FeignClientConfig.class)
+public interface MicroServicePatientProxy {
+
+    @GetMapping(value = "/Patients")
+    public List<PatientBean> listeDesPatients();
+
+    @GetMapping(value = "/Patients/{id}")
+    public PatientBean recupererUnPatient(@PathVariable("id") int id) ;
+
+    @PutMapping(value = "/Patients/{id}")
+    public PatientBean mettreAJourUnPatient(@PathVariable("id") int id,@RequestBody PatientBean patient) ;
+
+    @PostMapping(value = "/Patients")
+    public void AjouterUnPatient(@RequestBody PatientBean patient) ;
+
+    @DeleteMapping(value = "/Patients/{id}")
+    public void supprimerUnPatient(@PathVariable("id") int id) ;
+
+    @GetMapping(value = "/NotesPatients/Patient/{id}")
+    public Optional<List<NotePatientBean>> recupererNotesPatient(@PathVariable("id") int id) ;
+
+    @PostMapping(value = "/NotesPatients/Patient/{id}")
+    public void AjouterNoteAUnPatient(@RequestBody NotePatientBean notePatient,@PathVariable("id") int id) ;
+
+    @DeleteMapping(value = "/NotesPatients/{id}")
+    public void SupprimerNotePatient(@PathVariable("id") String id) ;
+
+    @GetMapping(value = "/NotesPatients/{id}")
+    public NotePatientBean recupererNotePatient(@PathVariable("id") String id) ;
+
+    @GetMapping(value = "/RapportDiabete/{id}")
+    public String recupererRapportDiabete(@PathVariable("id") int id) ;
+}

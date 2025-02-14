@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Fiche Patient</title>
+</head>
+<body>
+<form action="#" th:action="@{/details-patient/update/{id}(id=${patient.id})}" th:object="${patient}" method="post" style="width: 100%">
+    <div>
+        <label for="nom">Nom</label>
+        <div>
+            <input type="text" th:field="*{nom}" id="nom">
+            <p th:if="${#fields.hasErrors('nom')}" th:errors="*{nom}"></p>
+        </div>
+    </div>
+    <div>
+        <label for="prenom">Prénom</label>
+        <div>
+            <input type="text" th:field="*{prenom}" id="prenom">
+            <p th:if="${#fields.hasErrors('prenom')}" th:errors="*{prenom}"></p>
+        </div>
+    </div>
+    <div>
+        <label for="dateDeNaissance">dateDeNaissance</label>
+        <div>
+            <input type="text" th:field="*{dateDeNaissance}" id="dateDeNaissance">
+            <p th:if="${#fields.hasErrors('dateDeNaissance')}" th:errors="*{dateDeNaissance}"></p>
+        </div>
+    </div>
+    <div>
+        <label for="genre">genre</label>
+        <div>
+            <input type="text" th:field="*{genre}" id="genre">
+            <p th:if="${#fields.hasErrors('genre')}" th:errors="*{genre}"></p>
+        </div>
+    </div>
+    <div>
+        <label for="adressePostale">adressePostale</label>
+        <div>
+            <input type="text" th:field="*{adressePostale}" id="adressePostale">
+            <p th:if="${#fields.hasErrors('adressePostale')}" th:errors="*{adressePostale}"></p>
+        </div>
+    </div>
+    <div>
+        <label for="numeroDeTelephone">numeroDeTelephone</label>
+        <div>
+            <input type="text" th:field="*{numeroDeTelephone}" id="numeroDeTelephone">
+            <p th:if="${#fields.hasErrors('numeroDeTelephone')}" th:errors="*{numeroDeTelephone}"></p>
+        </div>
+    </div>
+
+    <div>
+        <div>
+            <input type="hidden" th:field="*{id}">
+            <a href="/">Annuler</a>
+            <input type="submit" value="Mise à jour données">
+        </div>
+    </div>
+</form>
+</body>
+</html>
