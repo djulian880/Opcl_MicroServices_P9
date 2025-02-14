@@ -120,7 +120,6 @@ public class DiabetAssessmentService {
     }
 
     public static int calculerAge(String dateNaissanceStr) {
-        // Convertir la String en LocalDate
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate dateNaissance = LocalDate.parse(dateNaissanceStr, formatter);
         LocalDate today = LocalDate.now();
