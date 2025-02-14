@@ -41,8 +41,7 @@ public class SpringSecurityConfig {
     public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
         http
                 .authorizeExchange(exchange -> exchange
-                        .pathMatchers("/logi").permitAll()
-
+                        .pathMatchers("/login").permitAll()
                         .pathMatchers("/**").hasRole("USER")
                         .anyExchange().authenticated()
                 )
